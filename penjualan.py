@@ -56,7 +56,7 @@ def hapus_barang():
 def menu_pembeli(barang):
     """Menu untuk pembeli memesan barang."""
     pesanan = {}
-    
+
     # Tampilkan daftar barang yang tersedia
     print("\nDaftar Barang yang Tersedia:")
     if barang:
@@ -97,11 +97,19 @@ def hitung_total(pesanan, barang):
 def pilih_mode():
     """Meminta user untuk memilih mode penjual atau pembeli."""
     while True:
-        mode = input("Masuk sebagai (penjual/pembeli)? ").lower()
-        if mode in ("penjual", "pembeli"):
-            return mode
+        print("1. Penjual")
+        print("2. Pembeli")
+        print("3. Keluar")
+        mode = input("Pilih mode (1-3): ")
+        if mode == '1':
+            return "penjual"
+        elif mode == '2':
+            return "pembeli"
+        elif mode == '3':
+            print("Program selesai.")
+            exit()  # Keluar dari program
         else:
-            print("Pilihan tidak valid. Silakan pilih 'penjual' atau 'pembeli'.")
+            print("Pilihan tidak valid. Silakan pilih 1, 2, atau 3.")
 
 def main():
     """Fungsi utama program."""
@@ -117,7 +125,11 @@ def main():
 
     while True:  # Loop utama program
         # Pilih mode user
-        mode = pilih_mode()
+        try:
+            mode = pilih_mode()
+        except EOFError:
+            print("Program berakhir karena tidak ada input.")
+            break
 
         if mode == "penjual":
             def menu():
@@ -155,6 +167,14 @@ def main():
             # Hitung total harga
             total_harga = hitung_total(pesanan, stok_barang)
 
+            # Kurangi stok barang
+            for jenis, jumlah_beli in pesanan.items():
+                stok_barang[jenis]['jumlah'] -= jumlah_beli
+
+            # Simpan data stok barang yang sudah diperbarui
+            with open('barang.txt', 'w') as f:
+                json.dump(stok_barang, f)
+
             # Tampilkan ringkasan pesanan
             print("\nRingkasan Pesanan:")
             for jenis, jumlah_beli in pesanan.items():
@@ -165,3 +185,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
