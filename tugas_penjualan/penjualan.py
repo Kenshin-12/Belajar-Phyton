@@ -1,5 +1,6 @@
 import json
 import os
+import pandas as pd
 
 folder_tugas = os.path.dirname(os.path.abspath(__file__))  # Dapatkan path folder tugas_penjualan
 file_barang = os.path.join(folder_tugas, 'barang.txt')  # Path lengkap ke barang.txt
@@ -43,8 +44,20 @@ def lihat_stok():
     """Fungsi untuk menampilkan daftar stok barang."""
     if stok_barang:
         print("Daftar Stok Barang:")
+        data_barang = {
+            "Kode Barang": [],
+            "Nama": [],
+            "Jumlah": [],
+            "Harga": []
+        }
         for kode, data in stok_barang.items():
-            print(f"Kode Barang: {kode}, Nama: {data['nama_barang']}, Jumlah: {data['jumlah']}, Harga: {data['harga']}")
+            data_barang["Kode Barang"].append(kode)
+            data_barang["Nama"].append(data['nama_barang'])
+            data_barang["Jumlah"].append(data['jumlah'])
+            data_barang["Harga"].append(data['harga'])
+
+        list_barang = pd.DataFrame(data_barang)
+        print(list_barang.to_markdown(index=False, numalign="left", stralign="left"))  # Tampilan lebih rapi
         print("\n")
     else:
         print("Stok kosong.\n")
@@ -66,7 +79,22 @@ def menu_pembeli(barang):
     print("\nDaftar Barang yang Tersedia:")
     if barang:
         for kode, data in barang.items():
-            print(f"Kode Barang: {kode}, Nama: {data['nama_barang']}, Jumlah: {data['jumlah']}, Harga: {data['harga']}")
+            print("Daftar Stok Barang:")
+        data_barang = {
+            "Kode Barang": [],
+            "Nama": [],
+            "Jumlah": [],
+            "Harga": []
+        }
+        for kode, data in stok_barang.items():
+            data_barang["Kode Barang"].append(kode)
+            data_barang["Nama"].append(data['nama_barang'])
+            data_barang["Jumlah"].append(data['jumlah'])
+            data_barang["Harga"].append(data['harga'])
+
+        list_barang = pd.DataFrame(data_barang)
+        print(list_barang.to_markdown(index=False, numalign="left", stralign="left"))
+        print("\n")
     else:
         print("Stok kosong.")
     print("\n")
