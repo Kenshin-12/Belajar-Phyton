@@ -1,4 +1,9 @@
 import json
+import os
+
+folder_tugas = os.path.dirname(os.path.abspath(__file__))  # Dapatkan path folder tugas_penjualan
+file_barang = os.path.join(folder_tugas, 'barang.txt')  # Path lengkap ke barang.txt
+
 
 stok_barang = {}
 
@@ -118,10 +123,11 @@ def main():
 
     # Muat data barang dari file jika ada
     try:
-        with open('barang.txt', 'r') as f:
+        with open(file_barang, 'r') as f:
             stok_barang.update(json.load(f))
     except FileNotFoundError:
         pass  # Abaikan jika file tidak ditemukan
+
 
     while True:  # Loop utama program
         # Pilih mode user
@@ -153,7 +159,7 @@ def main():
                         hapus_barang()
                     elif pilihan == '5':
                         print("Kembali ke menu utama.")
-                        with open('barang.txt', 'w') as f:  # Simpan data barang ke file
+                        with open(file_barang, 'w') as f:
                             json.dump(stok_barang, f)
                         return  # Keluar dari menu penjual
                     else:
@@ -172,7 +178,7 @@ def main():
                 stok_barang[jenis]['jumlah'] -= jumlah_beli
 
             # Simpan data stok barang yang sudah diperbarui
-            with open('barang.txt', 'w') as f:
+            with open(file_barang, 'w') as f:
                 json.dump(stok_barang, f)
 
             # Tampilkan ringkasan pesanan
