@@ -1,0 +1,1 @@
+{"RK-S": {"nama_barang": "Esse", "jumlah": 23, "harga": 25000.0}, "001": {"nama_barang": "Apel", "jumlah": 1000, "harga": 5000.0}, "002": {"nama_barang": "Jeruk", "jumlah": 1000, "harga": 5000.0}}
